@@ -28,7 +28,7 @@ namespace MultiplayerUnlimiter
     {
         public const string ModId = "com.willis.sotf.mpunlimiter";
         public const string ModName = "Multiplayer Unlimiter";
-        public const string Version = "0.1.0";
+        public const string Version = "0.1.1";
 
         internal static MultiplayerUnlimiterPlugin Instance { get; private set; }
 
