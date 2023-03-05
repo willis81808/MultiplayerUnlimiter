@@ -65,6 +65,7 @@ namespace MultiplayerUnlimiter
                 if (lobbyManager == null) return;
                 lobbyManager.SetMemberLimit(_maximumPlayers.Value);
 
+                // update lobby text
                 if (LocalPlayer._instance == null || !LocalPlayer.IsInWorld)
                 {
                     var text = Mache.Mache.FindObjectOfType<CoopLobbyDialogGui>().GetComponentsInChildren<LinkTextGui>().FirstOrDefault(l => l.gameObject.name == "PlayerCount");
@@ -72,6 +73,7 @@ namespace MultiplayerUnlimiter
                     text.SetText($"{playerCount}/{MaximumPlayers}");
                 }
 
+                // update player list text
                 if (PauseMenu.IsActive)
                 {
                     foreach (var activePlayerList in Mache.Mache.FindObjectsOfType<ActivePlayerList>())
