@@ -13,6 +13,11 @@ using UniverseLib;
 using UniverseLib.UI;
 using Mache;
 using Mache.UI;
+using Il2CppInterop.Runtime.Injection;
+using Sons.Gui.Multiplayer;
+using Sons.Gui;
+using Sons.Multiplayer.Gui;
+using TheForest.Utils;
 
 namespace MultiplayerUnlimiter
 {
@@ -59,6 +64,21 @@ namespace MultiplayerUnlimiter
                 var lobbyManager = CoopLobbyManager.GetActiveInstance();
                 if (lobbyManager == null) return;
                 lobbyManager.SetMemberLimit(_maximumPlayers.Value);
+
+                if (LocalPlayer._instance == null || !LocalPlayer.IsInWorld)
+                {
+                    var text = Mache.Mache.FindObjectOfType<CoopLobbyDialogGui>().GetComponentsInChildren<LinkTextGui>().FirstOrDefault(l => l.gameObject.name == "PlayerCount");
+                    var playerCount = text.GetText().Split('/')[0];
+                    text.SetText($"{playerCount}/{MaximumPlayers}");
+                }
+
+                if (PauseMenu.IsActive)
+                {
+                    foreach (var activePlayerList in Mache.Mache.FindObjectsOfType<ActivePlayerList>())
+                    {
+                        activePlayerList.SetPlayerLimit(MaximumPlayers);
+                    }
+                }
             }
         }
 
@@ -90,7 +110,7 @@ namespace MultiplayerUnlimiter
                 })
                 .BuildToTarget(parent);
         }
-
+        
         private void OnMaxPlayersValueChanged(SliderComponent slider, float val)
         {
             MaximumPlayers = (int)val;
